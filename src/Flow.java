@@ -10,6 +10,7 @@ public class Flow {
 	static int frameX;
 	static int frameY;
 	static FlowPanel fp;
+	protected static JLabel genLabel;
 
 	// start timer
 	private static void tick(){
@@ -34,7 +35,26 @@ public class Flow {
 		// to do: add a MouseListener, buttons and ActionListeners on those buttons
 		JPanel b = new JPanel();
 	    b.setLayout(new BoxLayout(b, BoxLayout.LINE_AXIS));
+		JButton reset = new JButton("Reset");
+		JButton pause = new JButton("Pause");
+		JButton play = new JButton("Play");
 		JButton endB = new JButton("End");;
+		genLabel = new JLabel("Year: 0");
+		reset.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+
+			}
+		});
+		pause.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+
+			}
+		});
+		play.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+
+			}
+		});
 		// add the listener to the jbutton to handle the "pressed" event
 		endB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -42,6 +62,10 @@ public class Flow {
 				frame.dispose();
 			}
 		});
+		b.add(reset);
+		b.add(pause);
+		b.add(play);
+		b.add(genLabel);
 		b.add(endB);
 		g.add(b);
 		frame.setSize(frameX, frameY+50);	// a little extra space at the bottom for buttons
@@ -69,5 +93,7 @@ public class Flow {
 		frameY = landdata.getDimY();
 		SwingUtilities.invokeLater(()->setupGUI(frameX, frameY, landdata));
 		// to do: initialise and start simulation
+
+
 	}
 }
