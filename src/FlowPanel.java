@@ -7,9 +7,7 @@ public class FlowPanel extends JPanel implements Runnable {
 	FlowPanel(Terrain terrain) {
 		land=terrain;
 	}
-		
-	// responsible for painting the terrain and water
-	// as images
+
 	@Override
     protected void paintComponent(Graphics g) {
 		int width = getWidth();
@@ -20,6 +18,9 @@ public class FlowPanel extends JPanel implements Runnable {
 		// draw the landscape in greyscale as an image
 		if (land.getImage() != null){
 			g.drawImage(land.getImage(), 0, 0, null);
+		}
+		if(land.getWaterImage() != null){
+			g.drawImage(land.getWaterImage(), 0, 0, null);
 		}
 	}
 	

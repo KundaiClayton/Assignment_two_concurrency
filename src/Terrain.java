@@ -10,7 +10,7 @@ public class Terrain {
 
 	float [][] height; // regular grid of height values
 	int dimx, dimy; // data dimensions
-	BufferedImage img; // greyscale image for displaying the terrain top-down
+	BufferedImage img, water_img; // greyscale image for displaying the terrain top-down
 
 	ArrayList<Integer> permute;	// permuted list of integers in range [0, dimx*dimy)
 	
@@ -33,7 +33,13 @@ public class Terrain {
 	public BufferedImage getImage() {
 		  return img;
 	}
-	
+
+	// get greyscale image
+	public BufferedImage getWaterImage() {
+		return water_img;
+	}
+
+
 	// convert linear position into 2D location in grid
 	void locate(int pos, int [] ind)
 	{
@@ -62,7 +68,9 @@ public class Terrain {
 				 // find normalized height value in range
 				 float val = (height[x][y] - minh) / (maxh - minh);
 				 Color col = new Color(val, val, val, 1.0f);
+				 Color c = new Color(0, 0, 0, 0);
 				 img.setRGB(x, y, col.getRGB());
+				 water_img.setRGB(x,y,c.getRGB());
 			}
 	}
 	
