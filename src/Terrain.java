@@ -51,6 +51,7 @@ public class Terrain {
 	void deriveImage()
 	{
 		img = new BufferedImage(dimx, dimy, BufferedImage.TYPE_INT_ARGB);
+		water_img = new BufferedImage(dimx, dimy, BufferedImage.TYPE_INT_ARGB);
 		float maxh = -10000.0f, minh = 10000.0f;
 		
 		// determine range of heights

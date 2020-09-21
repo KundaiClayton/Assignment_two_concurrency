@@ -65,8 +65,8 @@ public class Flow {
 		b.add(reset);
 		b.add(pause);
 		b.add(play);
-		b.add(genLabel);
 		b.add(endB);
+		b.add(genLabel);
 		g.add(b);
 		frame.setSize(frameX, frameY+50);	// a little extra space at the bottom for buttons
       	frame.setLocationRelativeTo(null);  // center window on screen
