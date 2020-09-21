@@ -36,4 +36,12 @@ public class Water {
         float elevation = terrain.height[this.getX_POS()][this.getY_POS()];
         return depth+elevation;
     }
+    synchronized  public void increment(){
+        int depth = this.getDEPTH();
+        this.setDEPTH(depth + 1);
+    }
+    synchronized  public void decrement(){
+        int depth = this.getDEPTH();
+        this.setDEPTH(depth - 1);
+    }
 }
