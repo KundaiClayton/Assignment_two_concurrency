@@ -1,9 +1,11 @@
 import javax.swing.*;
 
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.BorderLayout;
+import java.awt.image.BufferedImage;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Flow {
 	static long startTime = 0;
@@ -11,6 +13,8 @@ public class Flow {
 	static int frameY;
 	static FlowPanel fp;
 	protected static JLabel genLabel;
+
+	static Terrain terrain = new Terrain();
 
 	// start timer
 	private static void tick(){
@@ -42,17 +46,17 @@ public class Flow {
 		genLabel = new JLabel("Year: 0");
 		reset.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-
+				FlowPanel.reset();
 			}
 		});
 		pause.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-
+				FlowPanel.pause();
 			}
 		});
 		play.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-
+				FlowPanel.play();
 			}
 		});
 		// add the listener to the jbutton to handle the "pressed" event
@@ -75,6 +79,14 @@ public class Flow {
         frame.setVisible(true);
         Thread fpt = new Thread(fp);
         fpt.start();
+	}
+
+
+	/**
+	 * Increments the number of geneartions
+	 */
+	public static void incrementGenerations(AtomicInteger gen){
+		genLabel.setText("Gen: " + gen);
 	}
 	
 		

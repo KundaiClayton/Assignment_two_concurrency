@@ -1,9 +1,19 @@
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class Water {
 
-    private int DEPTH[][];
 
-    public Water(int x_POS, int y_POS, int DEPTH) {
-        this.setDEPTH(x_POS,y_POS,DEPTH);
+    private int[][] DEPTH;
+
+    public Water(int x_POS, int y_POS) {
+
+        DEPTH = new int[x_POS][y_POS];
+        for(int x=0; x<x_POS; x++){
+            for(int y=0 ; y<y_POS; y++){
+                DEPTH[x][y] = 0;
+            }
+        }
     }
 
     synchronized public void clearWater(int x_pos, int y_pos){
@@ -27,6 +37,9 @@ public class Water {
     }
     synchronized  public void decrement(int x, int y){
         int depth = this.getDEPTH(x,y);
-        this.setDEPTH(x,y,depth + 1);
+        this.setDEPTH(x,y,depth - 1);
+    }
+    synchronized  public void paint(int x, int y, Color c, BufferedImage water_img){
+        water_img.setRGB(x,y,c.getRGB());
     }
 }
