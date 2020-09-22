@@ -10,7 +10,8 @@ public class FlowPanel extends JPanel implements Runnable {
 	static Terrain land;
 	Water water ;
 	public static AtomicInteger generations;
-	public static AtomicBoolean paused = new AtomicBoolean(true);;
+	public static AtomicBoolean paused = new AtomicBoolean(true);
+	Simulation simulation,simulation2,simulation3,simulation4;
 	FlowPanel(Terrain terrain) {
 
 		land = terrain;
@@ -85,34 +86,34 @@ public class FlowPanel extends JPanel implements Runnable {
 		int dim = land.dim();
 		int low_1 = 0, low_2 = dim / 4, low_3 = dim / 2, low_4 = dim / 2 + dim / 4;
 		int high_1 = dim / 4, high_2 = dim / 2, high_3 = dim / 2 + dim / 4, high_4 = dim;
-		repaint();
 		while(true){
 			if(!paused.get()){
-				//create my threads here
-				Simulation simulation = new Simulation(land, water, low_1, high_1);
-				Simulation simulation2 = new Simulation(land,water, low_2, high_2);
-				Simulation simulation3 = new Simulation(land,water, low_3, high_3);
-				Simulation simulation4 = new Simulation(land,water, low_4, high_4);
+				try {
+					//create my threads here
+					simulation = new Simulation(land, water, low_1, high_1);
+					simulation2 = new Simulation(land, water, low_2, high_2);
+					simulation3 = new Simulation(land, water, low_3, high_3);
+					simulation4 = new Simulation(land, water, low_4, high_4);
 
-				Simulation[] t = new Simulation[4];
-				t[0] = simulation;
-				t[1] = simulation2;
-				t[2] = simulation3;
-				t[3] = simulation4;
-				for (Simulation thread : t) {
-					thread.start();
+					Simulation[] t = new Simulation[4];
+					t[0] = simulation;
+					t[1] = simulation2;
+					t[2] = simulation3;
+					t[3] = simulation4;
+					for (Simulation thread : t) {
+						thread.start();
+					}
+					for (Simulation thread : t) {
+						thread.join();
+					}
+					System.out.println("One iteration finished");
+					generations.getAndIncrement();
+					Flow.incrementGenerations(generations);
+					repaint();
+				}catch (InterruptedException e) {
+					e.printStackTrace();
 				}
-//				for (Simulation thread : t) {
-//					try {
-//						thread.join();
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//				}
-				System.out.println("One iteration finished");
-				generations.getAndIncrement();
-				Flow.incrementGenerations(generations);
-				repaint();
+
 			}
 		}
 
