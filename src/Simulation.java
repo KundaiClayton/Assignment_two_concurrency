@@ -36,15 +36,9 @@ public class Simulation extends  Thread {
                 int from_y = Math.max(0, y_cord-1);
                 int to_y = Math.min(y_cord+1, terrain.dimy-1);
 
-                //Find if there is water in this location
                 BufferedImage water_img = terrain.getWaterImage();
                 int color = water_img.getRGB(x_cord,y_cord);
                 if(color == Color.blue.getRGB()){
-
-//                    if(water.getDEPTH(x_cord,y_cord) <= 0){
-//                        return ;
-//                    }
-
                     float surface = water.calculateWaterSurface(x_cord,y_cord,terrain);
                     float small_surface = surface;
                     int x_=0, y_=0, d=0;
@@ -68,10 +62,9 @@ public class Simulation extends  Thread {
                           water.decrement(x_cord,y_cord);
                         }else if(water.getDEPTH(x_cord,y_cord)-1 <= 0){
                             water.decrement(x_cord,y_cord);
-                            Color c = new Color(0,0,0,0);
-                            water_img.setRGB(x_cord,y_cord, c.getRGB());
                         }
-                        water_img.setRGB(x_,y_, Color.blue.getRGB());
+                        FlowPanel.paint(x_cord,y_cord);
+                        FlowPanel.paint(x_,y_);
                     }
                 }
             }

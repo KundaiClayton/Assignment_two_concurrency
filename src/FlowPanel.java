@@ -52,6 +52,23 @@ public class FlowPanel extends JPanel implements Runnable {
 	}
 
 	/**
+	 * Controls the GUI water show depending on the waterdata form the Water model
+	 * @param x
+	 * @param y
+	 */
+	public static void paint(int x, int y){
+		BufferedImage img = land.getWaterImage();
+		int depth = water.getDEPTH(x,y);
+		if(depth > 0){
+			img.setRGB(x, y, Color.blue.getRGB());
+		}
+		else{
+			Color color = new Color(0, 0, 0, 0);
+			img.setRGB(x, y, color.getRGB());
+		}
+	}
+
+	/**
 	 * draw the landscape in greyscale as an image
 	 * @param g
 	 */
@@ -72,6 +89,7 @@ public class FlowPanel extends JPanel implements Runnable {
 	 */
 	public static void reset() {
 		reset.set(true);
+		paused.set(true);
 		generations.set(0);
 		BufferedImage img = land.getWaterImage();
 		int dimx = land.dimx;
@@ -99,6 +117,7 @@ public class FlowPanel extends JPanel implements Runnable {
 	 */
 	public static void play() {
 		paused.set(false);
+		reset.set(false);
 		System.out.println("Status: " + paused);
 	}
 
@@ -120,6 +139,9 @@ public class FlowPanel extends JPanel implements Runnable {
 
 		while(!end.get()){
 			if(!paused.get()){
+				//Clear water at the boundaries
+				water.clearWater(0,0);
+				water.clearWater(land.dimx-1,land.dimy-1);
 				//create my threads here
 				simulation = new Simulation(land, water, low_1, high_1);
 				simulation2 = new Simulation(land, water, low_2, high_2);
@@ -146,8 +168,6 @@ public class FlowPanel extends JPanel implements Runnable {
 				repaint();
 			}
 			repaint();
-
 		}
-
 	}
 }
