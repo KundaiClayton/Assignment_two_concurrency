@@ -7,6 +7,13 @@ public class Simulation extends  Thread {
     public static int low;
     public static int high;
 
+    /**
+     * This is the constructor of the simulation thread, it takes in four parameters
+     * @param terrain
+     * @param water
+     * @param low
+     * @param high
+     */
     public Simulation(Terrain terrain,Water water, int low, int high) {
         Simulation.terrain = terrain;
         Simulation.water = water;
@@ -34,9 +41,9 @@ public class Simulation extends  Thread {
                 int color = water_img.getRGB(x_cord,y_cord);
                 if(color == Color.blue.getRGB()){
 
-                    if(water.getDEPTH(x_cord,y_cord) <= 0){
-                        return ;
-                    }
+//                    if(water.getDEPTH(x_cord,y_cord) <= 0){
+//                        return ;
+//                    }
 
                     float surface = water.calculateWaterSurface(x_cord,y_cord,terrain);
                     float small_surface = surface;
@@ -44,7 +51,8 @@ public class Simulation extends  Thread {
                     for(int r= from_x; r<to_x ;r++){
                         for(int c= from_y; c<to_y ;c++){
                             float surface2 = water.calculateWaterSurface(r,c,terrain);
-                            if(surface2  < small_surface){
+                            int ck = Float.compare(surface2, small_surface);
+                            if(ck < 0){
                                 small_surface = surface2 ;
                                 x_ = r ;
                                 y_= c;
@@ -58,7 +66,7 @@ public class Simulation extends  Thread {
                         water.increment(x_,y_);
                         if(water.getDEPTH(x_cord,y_cord)-1 > 0){
                           water.decrement(x_cord,y_cord);
-                        }else if(water.getDEPTH(x_cord,y_cord)-1 == 0){
+                        }else if(water.getDEPTH(x_cord,y_cord)-1 <= 0){
                             water.decrement(x_cord,y_cord);
                             Color c = new Color(0,0,0,0);
                             water_img.setRGB(x_cord,y_cord, c.getRGB());

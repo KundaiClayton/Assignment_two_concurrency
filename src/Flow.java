@@ -13,19 +13,27 @@ public class Flow {
 	static int frameY;
 	static FlowPanel fp;
 	protected static JLabel genLabel;
-
-	static Terrain terrain = new Terrain();
-
-	// start timer
+	/**
+	 * start timer
+	 */
 	private static void tick(){
 		startTime = System.currentTimeMillis();
 	}
-	
-	// stop timer, return time elapsed in seconds
+
+	/**
+	 * stop timer,
+	 * @return return time elapsed in seconds
+	 */
 	private static float tock(){
 		return (System.currentTimeMillis() - startTime) / 1000.0f; 
 	}
-	
+
+	/**
+	 * Sets up the GUI
+	 * @param frameX
+	 * @param frameY
+	 * @param landdata
+	 */
 	public static void setupGUI(int frameX,int frameY,Terrain landdata) {
 		Dimension fsize = new Dimension(800, 800);
     	JFrame frame = new JFrame("Waterflow"); 
@@ -44,27 +52,14 @@ public class Flow {
 		JButton play = new JButton("Play");
 		JButton endB = new JButton("End");;
 		genLabel = new JLabel("Year: 0");
-		reset.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				FlowPanel.reset();
-			}
-		});
-		pause.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				FlowPanel.pause();
-			}
-		});
-		play.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				FlowPanel.play();
-			}
-		});
-		// add the listener to the jbutton to handle the "pressed" event
-		endB.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e){
-				// to do ask threads to stop
-				frame.dispose();
-			}
+		reset.addActionListener(e -> FlowPanel.reset());
+		pause.addActionListener(e -> FlowPanel.pause());
+		play.addActionListener(e -> FlowPanel.play());
+
+		endB.addActionListener(e -> {
+			frame.removeAll();
+			FlowPanel.endSimulation();
+			frame.dispose();
 		});
 		b.add(reset);
 		b.add(pause);
@@ -93,19 +88,15 @@ public class Flow {
 	public static void main(String[] args) {
 		Terrain landdata = new Terrain();
 		// check that number of command line arguments is correct
-//		if(args.length != 1)
-//		{
-//			System.out.println("Incorrect number of command line arguments. Should have form: java -jar flow.java intputfilename");
-//			System.exit(0);
-//		}
-		// landscape information from file supplied as argument
-		// 
-		landdata.readData("data/medsample_in.txt");
+		if(args.length != 1)
+		{
+			System.out.println("Incorrect number of command line arguments. Should have form: java -jar flow.java intputfilename");
+			System.exit(0);
+		}
+		landdata.readData(args[0]);
 		frameX = landdata.getDimX();
 		frameY = landdata.getDimY();
 		SwingUtilities.invokeLater(()->setupGUI(frameX, frameY, landdata));
-		// to do: initialise and start simulation
-
 
 	}
 }

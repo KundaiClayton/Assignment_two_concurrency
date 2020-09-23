@@ -13,41 +13,62 @@ public class Terrain {
 	BufferedImage img, water_img; // greyscale image for displaying the terrain top-down
 
 	ArrayList<Integer> permute;	// permuted list of integers in range [0, dimx*dimy)
-	
-	// overall number of elements in the height grid
+
+	/**
+	 *
+	 * @return overall number of elements in the height grid
+	 */
 	int dim(){
 		return dimx*dimy;
 	}
-	
-	// get x-dimensions (number of columns)
+
+	/**
+	 *
+	 * @return x-dimensions (number of columns)
+	 */
 	int getDimX(){
 		return dimx;
 	}
-	
-	// get y-dimensions (number of rows)
+
+	/**
+	 *
+	 * @return y-dimensions (number of rows)
+	 */
 	int getDimY(){
 		return dimy;
 	}
-	
-	// get greyscale image
+
+	/**
+	 *
+	 * @return greyscale image of the Terrain
+	 */
 	public BufferedImage getImage() {
 		  return img;
 	}
 
-	// get greyscale image
+	/**
+	 *
+	 * @return  get image of the water
+	 */
 	public BufferedImage getWaterImage() {
 		return water_img;
 	}
 
 
-	// convert linear position into 2D location in grid
+	/**
+	 * convert linear position into 2D location in grid
+	 * @param pos
+	 * @param ind
+	 */
 	void locate(int pos, int [] ind)
 	{
 		ind[0] = (int) pos / dimy; // x
 		ind[1] = pos % dimy; // y	
 	}
-	
-	// convert height values to greyscale colour and populate an image
+
+	/**
+	 * convert height values to greyscale colour and populate an image
+	 */
 	void deriveImage()
 	{
 		img = new BufferedImage(dimx, dimy, BufferedImage.TYPE_INT_ARGB);
@@ -74,23 +95,32 @@ public class Terrain {
 				 water_img.setRGB(x,y,c.getRGB());
 			}
 	}
-	
-	// generate a permuted list of linear index positions to allow a random
-	// traversal over the terrain
+
+	/**
+	 * generate a permuted list of linear index positions to allow a random
+	 * traversal over the terrain
+	 */
 	void genPermute() {
 		permute = new ArrayList<Integer>();
 		for(int idx = 0; idx < dim(); idx++)
 			permute.add(idx);
 		java.util.Collections.shuffle(permute);
 	}
-	
-	// find permuted 2D location from a linear index in the
-	// range [0, dimx*dimy)
+
+	/**
+	 * find permuted 2D location from a linear index in the
+	 * range [0, dimx*dimy)
+	 * @param i
+	 * @param loc
+	 */
 	void getPermute(int i, int [] loc) {
 		locate(permute.get(i), loc);
 	}
-	
-	// read in terrain from file
+
+	/**
+	 * read in terrain from file
+	 * @param fileName
+	 */
 	void readData(String fileName){ 
 		try{ 
 			Scanner sc = new Scanner(new File(fileName));
